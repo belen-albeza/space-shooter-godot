@@ -1,0 +1,130 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://scenes/PlayScreen.gd" type="Script" id=1]
+[ext_resource path="res://prefabs/Enemy.tscn" type="PackedScene" id=2]
+[ext_resource path="res://assets/images/background.png" type="Texture" id=3]
+[ext_resource path="res://prefabs/Ship.tscn" type="PackedScene" id=4]
+[ext_resource path="res://assets/fonts/Audiowide-Regular.ttf" type="DynamicFontData" id=5]
+[ext_resource path="res://scenes/GameOverHUD.tscn" type="PackedScene" id=6]
+[ext_resource path="res://assets/audio/bgm.ogg" type="AudioStream" id=7]
+
+[sub_resource type="DynamicFont" id=1]
+
+size = 18
+use_mipmaps = false
+use_filter = false
+font_data = ExtResource( 5 )
+_sections_unfolded = [ "Font" ]
+
+[node name="World" type="Node2D" index="0"]
+
+script = ExtResource( 1 )
+_sections_unfolded = [ "Offset", "Pause", "Region", "Transform" ]
+SPAWN_PROBABILITY = 0.3
+SPAWN_PROBABILITY_INCREMENT = 0.02
+ENEMY = ExtResource( 2 )
+
+[node name="Background" type="Sprite" parent="." index="0"]
+
+texture = ExtResource( 3 )
+centered = false
+region_enabled = true
+region_rect = Rect2( 0, 0, 512, 512 )
+
+[node name="Ship" parent="." index="1" instance=ExtResource( 4 )]
+
+position = Vector2( 256, 440 )
+_sections_unfolded = [ "Collision", "Transform", "Visibility" ]
+
+[node name="Bullets" type="Node2D" parent="." index="2"]
+
+_sections_unfolded = [ "Transform", "Visibility", "Z Index" ]
+
+[node name="Enemies" type="Node2D" parent="." index="3"]
+
+[node name="Explosions" type="Node2D" parent="." index="4"]
+
+[node name="GameOverDelay" type="Timer" parent="." index="5"]
+
+process_mode = 1
+wait_time = 2.0
+one_shot = true
+autostart = false
+
+[node name="EnemySpawner" type="Timer" parent="." index="6"]
+
+process_mode = 1
+wait_time = 0.1
+one_shot = false
+autostart = false
+
+[node name="HUD" type="Node2D" parent="." index="7"]
+
+editor/display_folded = true
+
+[node name="Score" type="Label" parent="HUD" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 16.0
+margin_top = 480.0
+margin_right = 91.0
+margin_bottom = 504.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 1 )
+text = "SCORE:"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Rect", "custom_fonts" ]
+
+[node name="Value" type="Label" parent="HUD/Score" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 79.0
+margin_right = 154.0
+margin_bottom = 24.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 1 )
+text = "0"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Rect" ]
+
+[node name="GameOverHUD" parent="." index="8" instance=ExtResource( 6 )]
+
+visible = false
+
+[node name="BackgroundMusic" type="AudioStreamPlayer" parent="." index="9"]
+
+stream = ExtResource( 7 )
+volume_db = 0.0
+autoplay = true
+mix_target = 0
+bus = "Master"
+
+[connection signal="kill" from="Ship" to="." method="_on_Ship_kill"]
+
+[connection signal="timeout" from="GameOverDelay" to="." method="_on_GameOverDelay_timeout"]
+
+[connection signal="timeout" from="EnemySpawner" to="." method="_on_EnemySpawner_timeout"]
+
+[connection signal="restart" from="GameOverHUD" to="." method="_on_GameOverHUD_restart"]
+
+

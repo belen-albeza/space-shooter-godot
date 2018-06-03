@@ -1,0 +1,40 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://prefabs/Bullet.gd" type="Script" id=1]
+[ext_resource path="res://assets/images/bullet.png" type="Texture" id=2]
+
+[sub_resource type="CapsuleShape2D" id=1]
+
+custom_solver_bias = 0.0
+radius = 6.07089
+height = 8.01647
+
+[node name="Bullet" type="Area2D"]
+
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+collision_layer = 2
+collision_mask = 0
+audio_bus_override = false
+audio_bus_name = "Master"
+script = ExtResource( 1 )
+_sections_unfolded = [ "Collision", "Transform", "Visibility" ]
+SPEED = 400
+
+[node name="Sprite" type="Sprite" parent="." index="0"]
+
+position = Vector2( 0, -10 )
+texture = ExtResource( 2 )
+_sections_unfolded = [ "Offset" ]
+
+[node name="Collision" type="CollisionShape2D" parent="." index="1"]
+
+position = Vector2( 0.0708895, -10.0439 )
+rotation = 3.14159
+shape = SubResource( 1 )
+_sections_unfolded = [ "Transform" ]
+
+

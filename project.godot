@@ -1,0 +1,32 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=3
+
+[application]
+
+config/name="Space Shooter"
+run/main_scene="res://scenes/TitleScreen.tscn"
+config/icon="res://icon.png"
+
+[display]
+
+window/size/width=512
+window/size/height=512
+window/size/resizable=false
+
+[layer_names]
+
+2d_physics/layer_1="ship"
+2d_physics/layer_2="bullets"
+2d_physics/layer_3="enemies"
+
+[rendering]
+
+quality/2d/use_pixel_snap=true
+environment/default_environment="res://default_env.tres"

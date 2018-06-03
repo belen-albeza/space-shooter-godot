@@ -1,0 +1,52 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://prefabs/Ship.gd" type="Script" id=1]
+[ext_resource path="res://prefabs/Bullet.tscn" type="PackedScene" id=2]
+[ext_resource path="res://prefabs/Explosion.tscn" type="PackedScene" id=3]
+[ext_resource path="res://assets/images/ship.png" type="Texture" id=4]
+[ext_resource path="res://assets/audio/shoot.wav" type="AudioStream" id=5]
+
+[node name="Ship" type="Area2D"]
+
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+collision_mask = 4
+audio_bus_override = false
+audio_bus_name = "Master"
+script = ExtResource( 1 )
+_sections_unfolded = [ "Collision", "Visibility" ]
+SPEED = 380
+BULLET = ExtResource( 2 )
+EXPLOSION = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="." index="0"]
+
+texture = ExtResource( 4 )
+
+[node name="Collision" type="CollisionPolygon2D" parent="." index="1"]
+
+build_mode = 0
+polygon = PoolVector2Array( -4, -16, -16, 0, -16, 16, 16, 16, 16, 0, 4, -16 )
+
+[node name="LeftCannon" type="Position2D" parent="." index="2"]
+
+position = Vector2( -14, -8 )
+
+[node name="RightCannon" type="Position2D" parent="." index="3"]
+
+position = Vector2( 14, -8 )
+
+[node name="SfxShoot" type="AudioStreamPlayer" parent="." index="4"]
+
+stream = ExtResource( 5 )
+volume_db = 0.0
+autoplay = false
+mix_target = 0
+bus = "Master"
+
+[connection signal="area_entered" from="." to="." method="_on_collision"]
+
+
